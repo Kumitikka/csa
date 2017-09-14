@@ -10,7 +10,7 @@ flow:
     - sleep:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '1'
+            - seconds: '10'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
