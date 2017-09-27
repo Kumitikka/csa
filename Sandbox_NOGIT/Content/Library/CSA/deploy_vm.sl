@@ -94,7 +94,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: CSA.CloudSlang.Azure
+namespace: CSA
 imports:
   strings: io.cloudslang.base.strings
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
