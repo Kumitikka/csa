@@ -17,6 +17,10 @@ flow:
     - trust_all_roots: 'true'
     - x_509_hostname_verifier: allow_all
     - vm_name
+    - nic_name:
+        required: false
+    - virtual_network_name
+    - subnet_name
   workflow:
     - get_auth_token:
         do:
