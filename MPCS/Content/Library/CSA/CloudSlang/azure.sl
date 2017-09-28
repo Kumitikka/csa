@@ -21,6 +21,7 @@ flow:
         required: false
     - virtual_network_name
     - subnet_name
+    - os_platform
   workflow:
     - get_auth_token:
         do:
@@ -92,6 +93,18 @@ flow:
           - status_code
           - error_message: '${error_message}'
         navigate:
+          - SUCCESS: unsupported_vm
+          - FAILURE: on_failure
+    - unsupported_vm:
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: 'Windows,Linux'
+            - string_to_find: '${os_platform}'
+            - os_platform
+        publish:
+          - return_code
+          - error_message: "${'Cannot create virtual machine with ' + os_platform}"
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   results:
@@ -109,12 +122,15 @@ extensions:
       create_network_interface:
         x: 659
         y: 213
+      unsupported_vm:
+        x: 799
+        y: 213
         navigate:
-          9ead2bca-57ac-b0e1-1b87-d6444d3950aa:
+          1a94f1cd-511c-3b36-c882-930759fe202a:
             targetId: cfa3ec53-5e6c-9147-99b8-d30a9862ed1e
             port: SUCCESS
     results:
       SUCCESS:
         cfa3ec53-5e6c-9147-99b8-d30a9862ed1e:
-          x: 841
-          y: 217
+          x: 1208
+          y: 206
