@@ -104,6 +104,7 @@ flow:
         publish:
           - return_code
           - error_message: "${'Cannot create virtual machine with ' + os_platform}"
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
