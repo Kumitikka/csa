@@ -59,6 +59,35 @@ flow:
           - status_code
           - error_message
         navigate:
+          - SUCCESS: create_network_interface
+          - FAILURE: on_failure
+    - create_network_interface:
+        do:
+          io.cloudslang.microsoft.azure.compute.network.network_interface_card.create_nic:
+            - vm_name
+            - nic_name: "${vm_name + '-nic'}"
+            - location
+            - subscription_id
+            - resource_group_name
+            - public_ip_address_name: "${vm_name + '-ip'}"
+            - virtual_network_name
+            - subnet_name
+            - auth_token
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
+        publish:
+          - nic_state: '${output}'
+          - status_code
+          - error_message: '${error_message}'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   results:
@@ -73,12 +102,15 @@ extensions:
       create_public_ip:
         x: 494
         y: 210
+      create_network_interface:
+        x: 659
+        y: 213
         navigate:
-          8b6a8283-ac20-4820-248b-7c29c7de65ea:
+          9ead2bca-57ac-b0e1-1b87-d6444d3950aa:
             targetId: cfa3ec53-5e6c-9147-99b8-d30a9862ed1e
             port: SUCCESS
     results:
       SUCCESS:
         cfa3ec53-5e6c-9147-99b8-d30a9862ed1e:
-          x: 721
-          y: 201
+          x: 841
+          y: 217
