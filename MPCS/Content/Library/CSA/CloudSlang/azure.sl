@@ -106,6 +106,23 @@ flow:
           - error_message: "${'Cannot create virtual machine with ' + os_platform}"
           - return_result
         navigate:
+          - SUCCESS: windows_vm
+          - FAILURE: on_failure
+    - windows_vm:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${os_platform}'
+            - second_string: Windows
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: linux_vm
+    - linux_vm:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${os_platform}'
+            - second_string: Linux
+            - ignore_case: 'true'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   results:
@@ -126,8 +143,18 @@ extensions:
       unsupported_vm:
         x: 799
         y: 213
+      windows_vm:
+        x: 1014
+        y: 120
         navigate:
-          1a94f1cd-511c-3b36-c882-930759fe202a:
+          93e7badd-59c4-544b-d4dd-42ab2ff93885:
+            targetId: cfa3ec53-5e6c-9147-99b8-d30a9862ed1e
+            port: SUCCESS
+      linux_vm:
+        x: 1022
+        y: 302
+        navigate:
+          f5598170-523d-4a29-8af1-f746a1152f84:
             targetId: cfa3ec53-5e6c-9147-99b8-d30a9862ed1e
             port: SUCCESS
     results:
