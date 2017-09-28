@@ -26,7 +26,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - client_id: '${client_id}'
-            - resource: 'https://management.azure.com'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
         publish:
