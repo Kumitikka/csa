@@ -103,7 +103,7 @@ flow:
           - error_message: '${error_message}'
         navigate:
           - SUCCESS: unsupported_vm
-          - FAILURE: on_failure
+          - FAILURE: delete_public_ip_address
     - unsupported_vm:
         do:
           io.cloudslang.base.strings.string_occurrence_counter:
