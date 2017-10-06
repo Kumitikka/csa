@@ -3,7 +3,7 @@ flow:
   name: google_vm
   inputs:
     - json_token:
-        default: "${get_sp('gcp_token')}"
+        default: ''
         sensitive: false
     - proxy_host:
         default: web-proxy.bbn.hpecorp.net
