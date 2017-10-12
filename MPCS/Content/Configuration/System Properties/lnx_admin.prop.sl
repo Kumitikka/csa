@@ -1,8 +1,8 @@
 namespace: ''
 properties:
   - lnx_admin:
-      value: ''
+      value: root
       sensitive: true
   - lnx_password:
-      value: ''
+      value: CSCrules10
       sensitive: true
