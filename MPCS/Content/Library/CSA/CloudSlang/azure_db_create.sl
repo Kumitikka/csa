@@ -1,6 +1,6 @@
 namespace: CSA.CloudSlang
 flow:
-  name: azure_db
+  name: azure_db_create
   inputs:
     - username
     - password:
@@ -24,7 +24,6 @@ flow:
     - database_name
     - database_edition
     - requested_service_objective_name
-    - timeout_loop: '1'
   workflow:
     - get_auth_token:
         do:
@@ -41,7 +40,7 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: create_sql_database_server
+          - SUCCESS: create_sql_database
           - FAILURE: on_failure
     - create_sql_database:
         do:
@@ -61,55 +60,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - create_sql_database_server:
-        do:
-          CSA.CloudSlang.Subflows.create_sql_database_server:
-            - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_group_name}'
-            - auth_token: '${auth_token}'
-            - location: '${location}'
-            - sql_server_name: '${sql_server_name}'
-            - sql_server_state: '${sql_server_state}'
-            - sql_admin_name: '${sql_admin_name}'
-            - sql_admin_password: '${sql_admin_password}'
-            - proxy_port: '${proxy_port}'
-            - proxy_host: '${proxy_host}'
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-        publish:
-          - do_retry: '${status_code}'
-        navigate:
-          - SUCCESS: create_sql_database
-          - FAILURE: string_equals
-    - string_equals:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${do_retry}'
-            - second_string: '504'
-        navigate:
-          - SUCCESS: sleep
-          - FAILURE: on_failure
-    - sleep:
-        loop:
-          for: 'timeout_loop in 1,2,3'
-          do:
-            io.cloudslang.base.utils.sleep:
-              - seconds: '2'
-          break:
-            - FAILURE
-        navigate:
-          - SUCCESS: add_numbers
-          - FAILURE: on_failure
-    - add_numbers:
-        do:
-          io.cloudslang.base.math.add_numbers:
-            - value1: '${timeout_loop}'
-            - value2: '1'
-        publish:
-          - timeout_loop: '${result}'
-        navigate:
-          - SUCCESS: create_sql_database_server
-          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
@@ -120,31 +70,12 @@ extensions:
         x: 93
         y: 104
       create_sql_database:
-        x: 511
-        y: 100
+        x: 385
+        y: 94
         navigate:
           5d131b2a-efde-3b5f-89e6-ec4644e2544f:
             targetId: 424eb293-6dec-7667-ac65-e15e1bd37f48
             port: SUCCESS
-      create_sql_database_server:
-        x: 323
-        y: 114
-        navigate:
-          308e869f-3cdb-a8b5-3029-2c2761c5fd37:
-            vertices:
-              - x: 363
-                y: 297
-            targetId: string_equals
-            port: FAILURE
-      string_equals:
-        x: 452
-        y: 295
-      sleep:
-        x: 245
-        y: 361
-      add_numbers:
-        x: 75
-        y: 295
     results:
       SUCCESS:
         424eb293-6dec-7667-ac65-e15e1bd37f48:

@@ -68,11 +68,12 @@ flow:
     - resource_group_name
     - auth_token
     - api_version:
-        required: false
         default: 2014-04-01-preview
+        required: false
     - location
     - sql_server_name
-    - sql_server_state
+    - sql_server_state:
+        required: false
     - sql_server_version:
         default: '12.0'
     - sql_admin_name
@@ -147,3 +148,32 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      create_sql_database_server:
+        x: 100
+        y: 250
+        navigate:
+          f4d645dd-905f-f4f0-f327-d8c0cbce5a02:
+            targetId: 50793047-66c8-0ab3-1424-8ff974ca5641
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        y: 375
+        navigate:
+          37174aaa-8ccb-bef6-fc42-8796c4b29d27:
+            targetId: 822f38c1-4698-489e-b0f1-1f330bdbf2b8
+            port: SUCCESS
+          99a97457-5669-38ff-7534-514c57b617ac:
+            targetId: 822f38c1-4698-489e-b0f1-1f330bdbf2b8
+            port: FAILURE
+    results:
+      SUCCESS:
+        50793047-66c8-0ab3-1424-8ff974ca5641:
+          x: 400
+          y: 125
+      FAILURE:
+        822f38c1-4698-489e-b0f1-1f330bdbf2b8:
+          x: 700
+          y: 250
