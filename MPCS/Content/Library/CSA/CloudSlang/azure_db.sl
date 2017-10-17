@@ -24,7 +24,6 @@ flow:
     - database_name
     - database_edition
     - requested_service_objective_name
-    - timeout_loop: '1'
   workflow:
     - get_auth_token:
         do:
@@ -80,35 +79,6 @@ flow:
           - do_retry: '${status_code}'
         navigate:
           - SUCCESS: create_sql_database
-          - FAILURE: string_equals
-    - string_equals:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${do_retry}'
-            - second_string: '504'
-        navigate:
-          - SUCCESS: sleep
-          - FAILURE: on_failure
-    - sleep:
-        loop:
-          for: 'timeout_loop in 1,2,3'
-          do:
-            io.cloudslang.base.utils.sleep:
-              - seconds: '2'
-          break:
-            - FAILURE
-        navigate:
-          - SUCCESS: add_numbers
-          - FAILURE: on_failure
-    - add_numbers:
-        do:
-          io.cloudslang.base.math.add_numbers:
-            - value1: '${timeout_loop}'
-            - value2: '1'
-        publish:
-          - timeout_loop: '${result}'
-        navigate:
-          - SUCCESS: create_sql_database_server
           - FAILURE: on_failure
   results:
     - FAILURE
@@ -129,22 +99,6 @@ extensions:
       create_sql_database_server:
         x: 323
         y: 114
-        navigate:
-          308e869f-3cdb-a8b5-3029-2c2761c5fd37:
-            vertices:
-              - x: 363
-                y: 297
-            targetId: string_equals
-            port: FAILURE
-      string_equals:
-        x: 452
-        y: 295
-      sleep:
-        x: 245
-        y: 361
-      add_numbers:
-        x: 75
-        y: 295
     results:
       SUCCESS:
         424eb293-6dec-7667-ac65-e15e1bd37f48:

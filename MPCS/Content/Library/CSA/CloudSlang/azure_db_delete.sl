@@ -57,6 +57,8 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+  outputs:
+    - deleted_database_name: '${database_name}'
   results:
     - FAILURE
     - SUCCESS
